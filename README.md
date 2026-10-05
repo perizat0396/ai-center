@@ -25,6 +25,10 @@ npm run build
 
 The production site is generated in `dist/`.
 
+## Live site
+
+https://perizat0396.github.io/ai-center/ — every push to `main` is built and published automatically by GitHub Actions (`.github/workflows/deploy.yml`).
+
 ## Where to change things
 
 | What | File |
