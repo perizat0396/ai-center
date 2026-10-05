@@ -1,0 +1,135 @@
+/* =========================================================
+   Ночной режим: элементы светятся и «сверкают» на чёрном фоне.
+   Цвета задаются в tokens.css (блок data-theme="dark"),
+   цвет свечения — переменная --glow (R, G, B).
+   ========================================================= */
+:root[data-theme="dark"] {
+  /* шапка и мелкие элементы */
+  .header { background: rgba(5, 6, 11, .6); }
+  .chip { background: rgba(255, 255, 255, .03); }
+  .chip:hover { box-shadow: 0 0 18px rgba(var(--glow), .35); }
+  /* на тёмном фоне все надписи светлые: кнопки — стеклянные со светлым текстом */
+  .pill--menu,
+  .pill--cta {
+    background: rgba(255, 255, 255, .08);
+    color: var(--c-text);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14), 0 0 24px rgba(var(--glow), .25);
+  }
+  .pill--menu .pill__dot,
+  .pill--cta .pill__icon { background: var(--c-text); color: var(--c-bg); box-shadow: 0 0 12px rgba(var(--glow), .7); }
+  .pill--ghost { background: rgba(255, 255, 255, .05); color: var(--c-text); }
+  .pill--outline { border-color: rgba(255, 255, 255, .4); color: var(--c-text); }
+  .logo__spark-glow { opacity: 1; }
+  .logo__tile { filter: drop-shadow(0 0 8px rgba(var(--glow), .5)); }
+
+  /* текст мягко светится */
+  .hero__title,
+  .projects__title,
+  .stat__num {
+    text-shadow: 0 0 28px rgba(var(--glow), .35);
+  }
+
+  /* hero: сфера — неоновое облако, руки подсвечены по контуру */
+  .hero__orb {
+    box-shadow: 0 0 120px 10px rgba(var(--glow), .12);
+    animation: orb-breathe var(--orb-pulse-duration) ease-in-out infinite,
+               orb-shimmer 4s ease-in-out infinite;
+  }
+  .hand img {
+    filter:
+      drop-shadow(0 0 2px rgba(220, 230, 255, .7))
+      drop-shadow(0 0 22px rgba(var(--glow), .45));
+  }
+  .hero__spark {
+    background: radial-gradient(circle, #fff 0%, #fff 10%, rgba(var(--glow), .7) 24%, rgba(150, 110, 255, .3) 45%, transparent 70%);
+  }
+
+  /* цифры: стеклянные дорожки с неоновым кружком */
+  .slider__track { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 0 30px -10px rgba(var(--tint), .5); }
+  .slider__knob {
+    box-shadow: 0 0 6px #fff, 0 0 26px rgba(var(--glow), .8), 0 0 60px rgba(var(--glow), .35);
+    animation: knob-twinkle 2.8s ease-in-out infinite;
+  }
+  .slider__shine::after { background: linear-gradient(100deg, transparent, rgba(var(--glow), .7), transparent); }
+  .stat__plus { box-shadow: 0 0 12px rgba(var(--glow), .25); }
+
+  /* карточки светятся своим цветом */
+  .deck__face {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, .08) inset,
+      0 0 40px -8px var(--g2),
+      0 30px 60px -20px rgba(0, 0, 0, .8);
+  }
+  .partner { color: var(--c-text-muted); }
+  .partner:hover { color: var(--c-text); text-shadow: 0 0 14px rgba(var(--glow), .6); }
+
+  /* финал: закрашенные буквы бегущей строки начинают сиять */
+  .marquee__char {
+    text-shadow: 0 0 calc(var(--fill, 1) * 30px) rgba(var(--glow), calc(var(--fill, 1) * .55));
+  }
+  .pill--outline { box-shadow: 0 0 18px rgba(var(--glow), .2); }
+}
+
+@keyframes orb-shimmer {
+  0%, 100% { filter: blur(var(--orb-blur)) brightness(1); }
+  50%      { filter: blur(var(--orb-blur)) brightness(1.2); }
+}
+@keyframes knob-twinkle {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.25); }
+}
+
+/* ---------- Звёздное небо (только ночью): рисует src/js/stars.js ---------- */
+.stars {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 90;               /* над фонами секций, под шапкой; клики проходят насквозь */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .8s ease;
+  mix-blend-mode: screen;
+}
+:root[data-theme="dark"] .stars { opacity: var(--stars-opacity, .7); }
+:root[data-theme="dark"] .hero__reveal-light {
+  background: radial-gradient(circle, rgba(170,185,255,.45) 0%, rgba(110,120,255,.22) 40%, transparent 70%);
+}
+:root[data-theme="dark"] .hero__reveal-light::before { display: none; }
+:root[data-theme="dark"] .hero__reveal-logo { filter: drop-shadow(0 0 24px rgba(var(--glow), .8)); }
+:root[data-theme="dark"] .hero__reveal-name { text-shadow: 0 0 18px rgba(var(--glow), .6); }
+:root[data-theme="dark"] .reveal-tile { fill: #f3f5fb; }
+:root[data-theme="dark"] .reveal-ink  { stroke: #05060b; }
+:root[data-theme="dark"] .hero__reveal-name { color: var(--c-text); }
+:root[data-theme="dark"] .hero__reveal-name small { color: #b9c0dd; }
+
+/* ---------- Плавная смена темы ---------- */
+html.theme-switching,
+html.theme-switching *:not(.marquee__char):not(.hero__word) {
+  transition:
+    background-color .6s ease, color .6s ease, border-color .6s ease,
+    box-shadow .6s ease, fill .6s ease, stroke .6s ease !important;
+}
+
+/* ---------- Кнопка переключения темы ---------- */
+.theme-toggle {
+  position: relative;
+  display: grid; place-items: center;
+  width: 40px; height: 40px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--c-bg-soft);
+  color: var(--c-text);
+  overflow: hidden;
+  transition: background-color var(--t-base) var(--ease-out), box-shadow var(--t-base);
+}
+.theme-toggle svg {
+  position: absolute;
+  width: 18px; height: 18px;
+  transition: transform .5s var(--ease-out), opacity .4s ease;
+}
+.theme-toggle .icon-sun  { transform: translateY(140%) rotate(-90deg); opacity: 0; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { transform: translateY(-140%) rotate(90deg); opacity: 0; }
+:root[data-theme="dark"] .theme-toggle .icon-sun  { transform: none; opacity: 1; }
+:root[data-theme="dark"] .theme-toggle { box-shadow: 0 0 18px rgba(var(--glow), .45); }
+.header.is-inverted .theme-toggle { background: rgba(255, 255, 255, .12); color: var(--c-dark-text); }
+.header .theme-toggle + .pill--cta { margin-left: 8px; }
+

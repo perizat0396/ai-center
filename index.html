@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Center — Amanzholov University</title>
+  <meta name="description" content="AI Center at Amanzholov University — the lab where students build AI startups, from first prototype to Demo Day." />
+  <script>
+    // Включаем начальные состояния анимаций, только если пользователь не просил уменьшить движение
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+    // Тема ставится до отрисовки, чтобы ночью не было белой вспышки: сохранённый выбор или тема системы
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- мерцающие звёзды: видны только в ночном режиме -->
+  <canvas class="stars" aria-hidden="true"></canvas>
+
+  <!-- ============ 1. HEADER ============ -->
+  <header class="header" id="header">
+    <a href="#top" class="logo" aria-label="AI Center — home">
+      <span class="logo__mark" aria-hidden="true">
+        <svg class="logo__svg" viewBox="0 0 40 40" fill="none">
+          <rect class="logo__tile" width="40" height="40" rx="12" />
+          <circle class="logo__a" cx="16" cy="23.5" r="5.5" pathLength="100" />
+          <path class="logo__a-stem" d="M21.5 17.5V29.5" pathLength="100" />
+          <path class="logo__i" d="M28 19.5V29.5" pathLength="100" />
+          <circle class="logo__spark-glow" cx="28" cy="12.5" r="4.5" />
+          <circle class="logo__spark" cx="28" cy="12.5" r="2.4" />
+        </svg>
+      </span>
+      <span class="logo__text">AI Center<small>Amanzholov University</small></span>
+    </a>
+
+    <nav class="header__nav" aria-label="Main navigation">
+      <a href="/#projects" class="pill pill--ghost">Startups</a>
+      <a href="/about.html" class="pill pill--ghost">About</a>
+    </nav>
+
+    <button class="theme-toggle" type="button" aria-label="Switch dark / light mode" aria-pressed="false">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+
+    <a href="#join" class="pill pill--cta">
+      <span>Apply now</span>
+      <span class="pill__icon" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M6 4h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ 2. HERO ============ -->
+    <section class="hero" data-theme="light">
+      <div class="hero__orb" aria-hidden="true"><span class="hero__orb-ring"></span></div>
+
+      <div class="hero__hands" aria-hidden="true">
+        <div class="hand hand--left">
+          <div class="hand__float"><img src="/img/hand-left.webp" alt="" data-fallback="hand-left" /></div>
+        </div>
+        <div class="hand hand--right">
+          <div class="hand__float"><img src="/img/hand-right.webp" alt="" data-fallback="hand-right" /></div>
+        </div>
+        <span class="hero__spark"></span>
+        <!-- при касании пальцев из света появляется логотип -->
+        <div class="hero__reveal" aria-hidden="true">
+          <span class="hero__reveal-light"></span>
+          <svg class="hero__reveal-logo" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="12" class="reveal-tile" />
+            <circle cx="16" cy="23.5" r="5.5" class="reveal-ink" />
+            <path d="M21.5 17.5V29.5M28 19.5V29.5" class="reveal-ink" />
+            <circle cx="28" cy="12.5" r="2.4" class="reveal-spark" />
+          </svg>
+          <span class="hero__reveal-name">AI Center<small>Amanzholov University</small></span>
+        </div>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="hero__line">Born at Amanzholov,</span>
+        <span class="hero__line hero__line--reveal" data-ink-words="2">built to think.</span>
+      </h1>
+
+      <div class="hero__bottom">
+        <div class="hero__intro">
+          <p class="hero__label">AI Startup Lab</p>
+          <p class="hero__lead">Where student ideas become intelligent products&nbsp;— from first prototype to&nbsp;Demo&nbsp;Day.</p>
+        </div>
+        <div class="hero__chips">
+          <a href="#projects" class="chip">Startups</a>
+          <a href="#stats" class="chip">Mentors</a>
+          <a href="#join" class="chip">Demo Day</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. DARK / CINEMATIC ============ -->
+    <section class="cinema" data-theme="dark" id="cinema">
+      <div class="cinema__media" aria-hidden="true">
+        <video class="cinema__video" src="/video/tunnel.mp4" autoplay muted loop playsinline preload="auto"></video>
+        <canvas class="cinema__canvas"></canvas>
+        <div class="cinema__vignette"></div>
+      </div>
+
+      <!-- Слова сменяют друг друга по порядку; можно добавить или убрать span -->
+      <h2 class="cinema__word" aria-label="Amanzholov University — AI Center — Startups">
+        <span class="cinema__item">AMANZHOLOV UNIVERSITY</span>
+        <span class="cinema__item">AI CENTER</span>
+        <span class="cinema__item">STARTUPS</span>
+      </h2>
+
+      <p class="cinema__text">
+        From lecture halls to launch day. Every semester Amanzholov students turn coursework
+        into AI&nbsp;startups&nbsp;— with mentors, GPU compute and a&nbsp;team by their side.
+      </p>
+    </section>
+
+    <!-- ============ 4. STATS ============ -->
+    <section class="stats" id="stats" data-theme="light">
+      <p class="eyebrow">The lab in numbers</p>
+      <ul class="stats__list">
+        <li class="stat">
+          <div class="stat__head">
+            <div class="stat__num"><span class="stat__value" data-to="97">97</span><span class="stat__suffix">%</span></div>
+            <p class="stat__label">of teams ship a working prototype by&nbsp;Demo&nbsp;Day</p>
+          </div>
+          <span class="stat__plus" aria-hidden="true">+</span>
+          <div class="slider" data-end="left" data-tint="1" aria-hidden="true">
+            <span class="slider__track"></span>
+            <span class="slider__shine"></span>
+            <span class="slider__knob"></span>
+          </div>
+        </li>
+        <li class="stat">
+          <div class="stat__head">
+            <div class="stat__num"><span class="stat__value" data-to="12">12</span><span class="stat__suffix">K</span></div>
+            <p class="stat__label">GPU hours available to student teams every year</p>
+          </div>
+          <span class="stat__plus" aria-hidden="true">+</span>
+          <div class="slider" data-end="right" data-tint="2" aria-hidden="true">
+            <span class="slider__track"></span>
+            <span class="slider__shine"></span>
+            <span class="slider__knob"></span>
+          </div>
+        </li>
+        <li class="stat">
+          <div class="stat__head">
+            <div class="stat__num"><span class="stat__value" data-to="30">30</span><span class="stat__suffix">+</span></div>
+            <p class="stat__label">AI startups launched and growing at the center</p>
+          </div>
+          <span class="stat__plus" aria-hidden="true">+</span>
+          <div class="slider" data-end="left" data-tint="3" aria-hidden="true">
+            <span class="slider__track"></span>
+            <span class="slider__shine"></span>
+            <span class="slider__knob"></span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ 5. PROJECTS / CARDS ============ -->
+    <section class="projects" id="projects" data-theme="light">
+      <p class="eyebrow">Student startups</p>
+      <h2 class="projects__title">Building tomorrow, <span class="projects__today">today</span></h2>
+
+      <div class="deck" aria-label="Startups from the center">
+        <article class="deck__card" style="--g1:#1b2a6b; --g2:#6a8cff"><div class="deck__face"><span class="deck__tag">MedTech</span><h3>MedScan</h3><p>AI that reads X-rays in seconds</p></div></article>
+        <article class="deck__card" style="--g1:#0f3d33; --g2:#41d1a2"><div class="deck__face"><span class="deck__tag">AgroTech</span><h3>AgroVision</h3><p>Drone vision for smarter farming</p></div></article>
+        <article class="deck__card deck__card--demo" data-demo="ustaz" tabindex="0" aria-label="AI-USTAZ: AI generation of learning materials. Hover to see a demo." style="--g1:#3a1452; --g2:#c27bff"><div class="deck__face"><span class="deck__tag">EdTech</span>
+            <!-- логотип AI-USTAZ (из проекта AI-USTAZ, без текста) -->
+            <div class="ustaz-logo" aria-hidden="true">
+              <span class="ustaz-logo__glow"></span>
+              <span class="ustaz-logo__ring"></span>
+              <svg class="ustaz-logo__mark" viewBox="0 0 32 32">
+                <defs>
+                  <linearGradient id="ustaz-g" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#818cf8"/>
+                    <stop offset="100%" stop-color="#4338ca"/>
+                  </linearGradient>
+                </defs>
+                <rect x="1.5" y="1.5" width="29" height="29" rx="9" fill="url(#ustaz-g)"/>
+                <path class="ustaz-logo__u" d="M11 10v7.2a5 5 0 0 0 10 0V10" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" pathLength="100"/>
+                <path class="ustaz-logo__spark" d="M25.5 6.5l.9 2 2 .9-2 .9-.9 2-.9-2-2-.9 2-.9.9-2Z" fill="#fff"/>
+              </svg>
+            </div>
+            <h3>AI-USTAZ</h3><p>AI generation of learning materials</p><span class="deck__hint">Hover to try ✦</span>
+            <div class="ustaz-demo" aria-hidden="true">
+              <div class="ud-chat">
+                <div class="ud-msg ud-msg--user"><span class="ud-type" data-text="Make a lesson about photosynthesis for 7th grade"></span></div>
+                <div class="ud-msg ud-msg--ai"><span class="ud-dots"><i></i><i></i><i></i></span><span class="ud-type" data-text="Sure! Plan: 1) What plants need 2) How light turns into food 3) Quick quiz"></span></div>
+                <span class="ud-use">Use ✦</span>
+              </div>
+              <div class="ud-course">
+                <p class="ud-title">Generating micro-course…</p>
+                <div class="ud-bar"><span></span></div>
+                <ul class="ud-modules">
+                  <li><b>01</b> Lesson · What plants need</li>
+                  <li><b>02</b> Video script · Light → food</li>
+                  <li><b>03</b> Flashcards · 12 terms</li>
+                  <li><b>04</b> Quiz · 8 questions</li>
+                </ul>
+                <p class="ud-done">✓ Micro-course ready</p>
+              </div>
+              <span class="ud-cursor"></span>
+            </div></div></article>
+        <article class="deck__card" style="--g1:#4a1d12; --g2:#ff8a5c"><div class="deck__face"><span class="deck__tag">NLP</span><h3>QazSpeech</h3><p>Speech recognition for Kazakh</p></div></article>
+        <article class="deck__card" style="--g1:#102a3d; --g2:#5ccfff"><div class="deck__face"><span class="deck__tag">Smart City</span><h3>SafeRoute</h3><p>Traffic insights for safer cities</p></div></article>
+        <article class="deck__card" style="--g1:#232323; --g2:#9a9a9a"><div class="deck__face"><span class="deck__tag">Climate</span><h3>EcoTrack</h3><p>Air quality forecasts for the city</p></div></article>
+      </div>
+
+      <ul class="partners" aria-label="Partners">
+        <li class="partner"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>Partner&nbsp;01</li>
+        <li class="partner"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.8"/></svg>Partner&nbsp;02</li>
+        <li class="partner"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l9 16H3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Partner&nbsp;03</li>
+        <li class="partner"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Partner&nbsp;04</li>
+      </ul>
+    </section>
+
+    <!-- ============ 6. FINALE ============ -->
+    <section class="finale" id="join" data-theme="light">
+      <div class="marquee" aria-label="AI Center — ideas that think">
+        <div class="marquee__track" aria-hidden="true">
+          <span class="marquee__item">AI Center — ideas that think —</span>
+          <span class="marquee__item">AI Center — ideas that think —</span>
+        </div>
+      </div>
+
+      <div class="finale__body">
+        <p class="finale__text">
+          Got an idea for an AI product? Join with your team or on your own&nbsp;— we'll help you find
+          co-founders, a mentor and the compute to build it. Applications are open all year round.
+        </p>
+        <div class="finale__actions">
+          <a href="#" class="pill pill--cta pill--lg">
+            <span>Apply now</span>
+            <span class="pill__icon" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M6 4h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </a>
+          <a href="#" class="pill pill--outline pill--lg">Contact us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a href="#top" class="logo">
+      <span class="logo__mark" aria-hidden="true">
+        <svg class="logo__svg" viewBox="0 0 40 40" fill="none">
+          <rect class="logo__tile" width="40" height="40" rx="12" />
+          <circle class="logo__a" cx="16" cy="23.5" r="5.5" pathLength="100" />
+          <path class="logo__a-stem" d="M21.5 17.5V29.5" pathLength="100" />
+          <path class="logo__i" d="M28 19.5V29.5" pathLength="100" />
+          <circle class="logo__spark-glow" cx="28" cy="12.5" r="4.5" />
+          <circle class="logo__spark" cx="28" cy="12.5" r="2.4" />
+        </svg>
+      </span>
+      <span class="logo__text">AI Center<small>Amanzholov University</small></span>
+    </a>
+    <p class="footer__meta">Ust-Kamenogorsk · Sarsen Amanzholov East Kazakhstan University</p>
+    <p class="footer__meta">© 2026 AI Center</p>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
